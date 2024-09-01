@@ -17,7 +17,8 @@ config/
 databases/
 ├─ economy-pilot/
 │  ├─ database.db
-```<br>
+```
+<br>
 - Configuration file `economy-pilot-lite.toml`<br>
 - Database file `database.db`<br>
 
