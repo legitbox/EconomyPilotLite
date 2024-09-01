@@ -1,0 +1,11 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "endstone-economy_pilot_lite"
+version = "0.0.3"
+description = "My first Python plugin for Endstone servers!"
+
+[project.entry-points."endstone"]
+economy_pilot_lite = "endstone_economy_pilot_lite:Main"
