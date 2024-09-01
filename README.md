@@ -23,8 +23,9 @@ databases/
 - Database file `database.db`<br>
 
 ### Command usage<br>
-- Player commands<br>
-`/balance or /bal` - if executed by the player it will give the players current balance<br>
+- Player commands<br><br>
+`/balance or /bal` - if executed by the player it will give the players current balance
+<br><br>
 `/pay <username: str> <amount: int>` - if executed by the player it will let the player pay money to an another user, <br>for example `/pay legtibox7811 150`
 
 - Server commands [needs op]<br>
