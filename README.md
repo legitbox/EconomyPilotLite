@@ -29,9 +29,9 @@ databases/
 
 - Server commands [needs op]<br>
 `/serverpay <player: str> <amount: int>` - if executed by the server it will transfer money to the players balance, <br>for example `/serverpay legitbox7811 150`
-<br>
+<br><br>
 `/serverdeduct <player: str> <amount: int>` - if executed by the server it will deduct money from the players balance, <br>for example `/serverdeduct legitbox7811 150`
-<br>
+<br><br>
 `/serverbalance <player: str>` - if executed by the server it will show the selected player's balance, <br>for example `/serverlbalance legitbox7811`
-<br>
+<br><br>
 `/setbalance <player: str> <balance: int>` - if executed by the server it will set the players balance to what you have selected, <br>for example `/setbalance legitbox7811 0`
