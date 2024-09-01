@@ -1,6 +1,6 @@
 ![logo](https://github.com/legitbox/EconomyPilotLite/blob/main/bitmap.png?raw=true)
 # EconomyPilotLite<br>
-This is a core plugin for an economy system for the endstone server software<br>
+This is a system/api plugin for an economy system for the endstone server software<br>
 
 ### Features<br>
 - multithreaded SQLite database for fast and simple operations<br>
