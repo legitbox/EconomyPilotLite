@@ -124,3 +124,23 @@ def server_balance_fetch(username) -> str:
     connection.close()
 
     return return_string
+
+# removes the user and their data from the database
+# INPUT - string
+# OUTPUT - string
+def delete_user(username) -> str:
+    connection = sqlite3.connect(f'{directory_path}/database.db')
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT EXISTS(SELECT 1 FROM database WHERE username = ?)", (str(username),))
+    reciever_exists = int(cursor.fetchone()[0])
+    if reciever_exists == 0:
+        return_string = f"{ColorFormat.RED}This user isnt logged in the database{ColorFormat.RESET}"
+        connection.close()
+        return return_string
+
+    cursor.execute("DELETE FROM database WHERE username = ?;", (str(username),))
+    return_string = f"{ColorFormat.RED}User's {ColorFormat.GREEN}{username}{ColorFormat.RESET} data has been deleted!{ColorFormat.RESET}"
+    connection.commit()
+    connection.close()
+    return return_string
