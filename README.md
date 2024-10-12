@@ -36,3 +36,8 @@ databases/
 `/serverbalance <player: str>` - if executed by the server it will show the selected player's balance, <br>for example `/serverlbalance legitbox7811`
 <br><br>
 `/setbalance <player: str> <balance: int>` - if executed by the server it will set the players balance to what you have selected, <br>for example `/setbalance legitbox7811 0`
+<br><br>
+`/deluser <player: str>` - if executed by the server it will remove the user's data from the database, <br>for example `/deluser legitbox7811`
+<br><br>
+`/nukedatabase` - WARNING!!! Nukes the database and stops the server
+
