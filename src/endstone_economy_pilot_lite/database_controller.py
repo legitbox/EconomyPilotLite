@@ -15,6 +15,7 @@ directory_path = Path('databases/economy-pilot/')
 if not directory_path.exists():
     directory_path.mkdir(parents=True, exist_ok=True)
 
+
 # this function creates the main table if it doesn't exist
 # The table stores player's uuid as a KEY, username for command usage and money
 def check_main_table():
@@ -31,6 +32,7 @@ def check_main_table():
     connection.commit()
     connection.close()
 
+
 # this function creates a database entry in the table if the user joined for the first time or his entry got deleted
 def check_user_data(uuid, username):
     connection = sqlite3.connect(f'{directory_path}/database.db')
@@ -43,6 +45,7 @@ def check_user_data(uuid, username):
     connection.commit()
     connection.close()
 
+
 # this function fetches the amount of money the user has and returns it to the main.py script
 def fetch_balance(username):
     connection = sqlite3.connect(f'{directory_path}/database.db')
@@ -54,6 +57,7 @@ def fetch_balance(username):
     connection.close()
 
     return balance
+
 
 # this function checks for username changes in the server, so if a player changes their username, they wouldn't loose their money
 def check_player_username_for_change(uuid, unchecked_username):
@@ -71,6 +75,7 @@ def check_player_username_for_change(uuid, unchecked_username):
 
     connection.commit()
     connection.close()
+
 
 # basically the entire transaction engine, sends money from one user to another
 def pay_to_player(sender_username, reciever_username, amount) -> str:
@@ -108,6 +113,7 @@ def pay_to_player(sender_username, reciever_username, amount) -> str:
     connection.close()
     return return_string
 
+
 # this function sets the players balance
 def set_balance(username, balance) -> str:
     connection = sqlite3.connect(f'{directory_path}/database.db')
@@ -128,6 +134,7 @@ def set_balance(username, balance) -> str:
     connection.close()
     return return_message
 
+
 # it's like the /pay command but it can be sent from a non player, must be op though
 def server_pay(username, amount) -> str:
     connection = sqlite3.connect(f'{directory_path}/database.db')
@@ -146,6 +153,7 @@ def server_pay(username, amount) -> str:
     connection.commit()
     connection.close()
     return return_string
+
 
 # this command lets the server deduct from the player's balance
 def server_deduct(username, amount) -> str:
@@ -166,6 +174,7 @@ def server_deduct(username, amount) -> str:
     connection.close()
     return return_string
 
+
 # lets the server fetch the player's balance
 def server_balance_fetch(username) -> str:
     connection = sqlite3.connect(f'{directory_path}/database.db')
@@ -184,6 +193,26 @@ def server_balance_fetch(username) -> str:
     connection.close()
 
     return return_string
+
+
+# removes the user and their data from the database
+def delete_user(username) -> str:
+    connection = sqlite3.connect(f'{directory_path}/database.db')
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT EXISTS(SELECT 1 FROM database WHERE username = ?)", (str(username),))
+    reciever_exists = int(cursor.fetchone()[0])
+    if reciever_exists == 0:
+        return_string = f"{ColorFormat.RED}This user isnt logged in the database{ColorFormat.RESET}"
+        connection.close()
+        return return_string
+
+    cursor.execute("DELETE FROM database WHERE username = ?;", (str(username),))
+    return_string = f"{ColorFormat.RED}User's {ColorFormat.GREEN}{username}{ColorFormat.RESET} data has been deleted!{ColorFormat.RESET}"
+    connection.commit()
+    connection.close()
+    return return_string
+
 
 # Nukes and recreates the database
 def nuke_database():

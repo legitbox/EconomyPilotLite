@@ -6,11 +6,11 @@ from endstone import ColorFormat
 from endstone_economy_pilot_lite.config import check_config, load_config
 from endstone_economy_pilot_lite.database_controller import check_main_table, check_user_data, fetch_balance, \
     check_player_username_for_change, pay_to_player, set_balance, server_pay, server_deduct, server_balance_fetch, \
-    nuke_database
+    nuke_database, delete_user
 
 check_config()
 currency = load_config()
-version = "0.0.3"
+version = "0.0.5"
 
 class Main(Plugin):
     api_version = "0.5"
@@ -53,6 +53,11 @@ class Main(Plugin):
             "description": "WARNING!!! Resets the database! STOPS THE SERVER!!!",
             "usages": ["/nukedatabase"],
             "permissions": ["economy_pilot_lite.command.nukedatabase"]
+        },
+        "deluser": {
+            "description": "Deletes the selected user",
+            "usages": ["/deluser <player: str>"],
+            "permissions": ["economy_pilot_lite.command.deluser"]
         }
     }
     permissions = {
@@ -83,6 +88,10 @@ class Main(Plugin):
         "economy_pilot_lite.command.nukedatabase": {
             "description": "Allows the user to use nukedatabase",
             "default": "op"
+        },
+        "economy_pilot_lite.command.deluser": {
+            "description": "Allows the user to delete a user from the database",
+            "default": "op"
         }
     }
     def on_enable(self):
@@ -91,13 +100,11 @@ class Main(Plugin):
     def on_load(self):
         self.logger.info(f"""
         {ColorFormat.GOLD}
-              :::::::::: :::::::::  :::  
-             :+:        :+:    :+: :+:   
-            +:+        +:+    +:+ +:+    
-           +#++:++#   +#++:++#+  +#+     
-          +#+        +#+        +#+      
-         #+#        #+#        #+#       
-        ########## ###        ########## 
+                                                                                       ╱|、
+         ___  __   __        __                __          __  ___           ___  ___ (•˕ •7
+        |__  /  ` /  \ |\ | /  \  |\/| \ /    |__) | |    /  \  |     |    |  |  |__   |、⁻〵ノ)
+        |___ \__, \__/ | \| \__/  |  |  |     |    | |___ \__/  |     |___ |  |  |___  じしˍ,)ノ
+        By Lunatechnika studios
         {ColorFormat.RESET}
         """)
         self.logger.info(f"{ColorFormat.GOLD}Version - {version}{ColorFormat.RESET}")
@@ -114,7 +121,7 @@ class Main(Plugin):
     @event_handler
     def on_player_join(self, event: PlayerJoinEvent):
         player = event.player
-        self.logger.info(f"{ColorFormat.GOLD}Checking user's {ColorFormat.GREEN}{player.name}{ColorFormat.RESET} {ColorFormat.GOLD}records on the database{ColorFormat.RESET}")
+        self.logger.info(f"{ColorFormat.GOLD}Economy Pilot Lite is checking user's {ColorFormat.GREEN}{player.name}{ColorFormat.RESET} {ColorFormat.GOLD}records on the database{ColorFormat.RESET}")
         check_user_data(player.unique_id, player.name)
         check_player_username_for_change(player.unique_id, player.name)
 
@@ -143,6 +150,11 @@ class Main(Plugin):
             case "nukedatabase":
                 nuke_database()
                 self.server.dispatch_command(self.server.command_sender, "stop")
+            case "deluser":
+                sender.send_message(f"{delete_user(args[0])}")
+                self.server.dispatch_command(self.server.command_sender, f"kick {args[0]}")
+
+
 
 
 
